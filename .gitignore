@@ -1,1 +1,17 @@
+# Compiled Object files
+*.o
+
+# Executables
+*.out
+src/server
+
+# Editor Files
+.vscode
+**/.vscode/**
+
+# Data
 data/
+
+# Log
+src/log
+
