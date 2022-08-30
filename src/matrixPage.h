@@ -1,5 +1,5 @@
-#ifndef __PAGE_H
-#define __PAGE_H
+#ifndef __MATRIXPAGE_H
+#define __MATRIXPAGE_H
 #include"logger.h"
 /**
  * @brief The Page object is the main memory representation of a physical page
@@ -12,23 +12,21 @@
  *</p>
  */
 
-class Page{
+class MatrixPage{
 
-    string tableName;
-    string pageIndex;
-    int columnCount;
-    int rowCount;
-    vector<vector<int>> rows;
+    string matrixName;
+    int rowIndex;
+    int colIndex;
+    vector<vector<int>> matrix;
 
     public:
 
     string pageName = "";
-    Page();
-    Page(string tableName, int pageIndex);
-    Page(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount);
-    vector<int> getRow(int rowIndex);
-    void writePage();
-
+    MatrixPage();
+    MatrixPage(string matrixName, int rowIndex, int colIndex);
+    MatrixPage(string matrixName, int rowIndex, int colIndex, vector<vector<int>> data);
+    vector<vector<int>> getMatrix();
+    void writeMatrixPage();
 };
 
 #endif

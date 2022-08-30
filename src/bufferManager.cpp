@@ -29,7 +29,7 @@ Page BufferManager::getPage(string tableName, int pageIndex)
  * @param pageName 
  * @return true 
  * @return false 
- */
+ */ 
 bool BufferManager::inPool(string pageName)
 {
     logger.log("BufferManager::inPool");
@@ -102,7 +102,7 @@ void BufferManager::deleteFile(string fileName)
     
     if (remove(fileName.c_str()))
         logger.log("BufferManager::deleteFile: Err");
-        else logger.log("BufferManager::deleteFile: Success");
+    else logger.log("BufferManager::deleteFile: Success");
 }
 
 /**

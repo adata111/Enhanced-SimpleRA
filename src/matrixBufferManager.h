@@ -1,6 +1,6 @@
-#ifndef __BUFFERMANAGER_H
-#define __BUFFERMANAGER_H
-#include"page.h"
+#ifndef __MATRIXBUFFERMANAGER_H
+#define __MATRIXBUFFERMANAGER_H
+#include "matrixPage.h"
 
 /**
  * @brief The BufferManager is responsible for reading pages to the main memory.
@@ -20,27 +20,22 @@
  * be transparent to the executors i.e. the executor should not know if a block
  * was previously present in the buffer or was read in from the disk. 
  * </p>
- * 
+ *
  */
-class BufferManager{
+class MatrixBufferManager{
 
-    deque<Page> pages; 
+    deque<MatrixPage> pages; 
     bool inPool(string pageName);
-    Page getFromPool(string pageName);
-    Page insertIntoPool(string tableName, int pageIndex);
+    MatrixPage getFromPool(string pageName);
+    MatrixPage insertIntoPool(string matrixName, int rowIndex, int colIndex);
     
     public:
     
-    BufferManager();
-    Page getPage(string tableName, int pageIndex);
-    void writePage(string pageName, vector<vector<int>> rows);
-    void deleteFile(string tableName, int pageIndex);
-    void deleteFile(string fileName);
-    void writePage(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount);
-
-    Page getMatrixPage(string matrixName, int rowIndex, int colIndex);
+    MatrixBufferManager();
+    MatrixPage getMatrixPage(string matrixName, int rowIndex, int colIndex);
     void writeMatrixPage(string matrixName, int rowIndex, int colIndex, vector<vector<int>> data);
-    void deleteFile(string tableName, int rowIndex, int colIndex);
+    void deleteFile(string maName, int rowIndex, int colIndex);
+    void deleteFile(string fileName);
 };
 
 #endif

@@ -210,7 +210,7 @@ void Table::renameColumn(string fromColumnName, string toColumnName)
     }
     return;
 }
-
+ 
 /**
  * @brief Function prints the first few rows of the table. If the table contains
  * more rows than PRINT_COUNT, exactly PRINT_COUNT rows are printed, else all

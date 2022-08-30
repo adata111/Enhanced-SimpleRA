@@ -4,9 +4,15 @@ bool syntacticParse()
 {
     logger.log("syntacticParse");
     string possibleQueryType = tokenizedQuery[0];
+    // std::cout << tokenizedQuery[0] << endl;
+    // std::cout << tokenizedQuery[1] << endl;
+    // std::cout << tokenizedQuery[2] << endl;
+
+    // std::cout << possibleQueryType << endl;
 
     if (tokenizedQuery.size() < 2)
     {
+        cout << "flag 1" << endl;
         cout << "SYNTAX ERROR" << endl;
         return false;
     }
@@ -17,21 +23,36 @@ bool syntacticParse()
         return syntacticParseINDEX();
     else if (possibleQueryType == "LIST")
         return syntacticParseLIST();
+    else if (possibleQueryType == "LOAD" && tokenizedQuery[1] == "MATRIX")
+    {
+        // std::cout << "THIS WORKED!" << endl;
+        return syntacticParseLOADMATRIX();
+    }
     else if (possibleQueryType == "LOAD")
         return syntacticParseLOAD();
+    else if (possibleQueryType == "PRINT" && tokenizedQuery[1] == "MATRIX")
+        return syntacticParsePRINTMATRIX();
     else if (possibleQueryType == "PRINT")
         return syntacticParsePRINT();
     else if (possibleQueryType == "RENAME")
         return syntacticParseRENAME();
+    else if (possibleQueryType == "EXPORT" && tokenizedQuery[1] == "MATRIX")
+    {
+        // std::cout << "EXPORT MATRIX" << endl;
+        return syntacticParseEXPORTMATRIX();
+    }
     else if(possibleQueryType == "EXPORT")
         return syntacticParseEXPORT();
     else if(possibleQueryType == "SOURCE")
         return syntacticParseSOURCE();
+    else if (possibleQueryType == "CROSS_TRANSPOSE")
+        return syntacticParseCROSSTRANSPOSE();
     else
     {
         string resultantRelationName = possibleQueryType;
         if (tokenizedQuery[1] != "<-" || tokenizedQuery.size() < 3)
         {
+            cout << "flag 3" << endl;
             cout << "SYNTAX ERROR" << endl;
             return false;
         }
@@ -50,6 +71,7 @@ bool syntacticParse()
             return syntacticParseSORT();
         else
         {
+            cout << "flag 4" << endl;
             cout << "SYNTAX ERROR" << endl;
             return false;
         }
@@ -124,9 +146,9 @@ void ParsedQuery::clear()
  * @return true 
  * @return false 
  */
-bool isFileExists(string tableName)
+bool isFileExists(string relationName)
 {
-    string fileName = "../data/" + tableName + ".csv";
+    string fileName = "../data/" + relationName + ".csv";
     struct stat buffer;
     return (stat(fileName.c_str(), &buffer) == 0);
 }
@@ -143,4 +165,24 @@ bool isQueryFile(string fileName){
     fileName = "../data/" + fileName + ".ra";
     struct stat buffer;
     return (stat(fileName.c_str(), &buffer) == 0);
+}
+
+bool isMatrix(string matrixName)
+{
+    string fileName = "../data/" + matrixName + ".csv";
+    ifstream fin(fileName, ios::in);
+
+    string firstWord;
+    getline(fin, firstWord, ',');
+    firstWord.erase(std::remove_if(firstWord.begin(), firstWord.end(), ::isspace), firstWord.end());
+
+    try
+    {
+        stoi(firstWord);
+        return true;
+    }
+    catch (exception e)
+    {
+        return false;
+    }
 }

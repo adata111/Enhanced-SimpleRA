@@ -1,4 +1,8 @@
+#ifndef __SYNTACTICPARSER_H
+#define __SYNTACTICPARSER_H
+
 #include "tableCatalogue.h"
+#include "matrixCatalogue.h"
 
 using namespace std;
 
@@ -8,16 +12,20 @@ enum QueryType
     CROSS,
     DISTINCT,
     EXPORT,
+    EXPORTMATRIX,
     INDEX,
     JOIN,
     LIST,
     LOAD,
+    LOADMATRIX,
     PRINT,
+    PRINTMATRIX,
     PROJECTION,
     RENAME,
     SELECTION,
     SORT,
     SOURCE,
+    CROSSTRANSPOSE,
     UNDETERMINED
 };
 
@@ -62,6 +70,10 @@ public:
     string distinctRelationName = "";
 
     string exportRelationName = "";
+    string exportMatrixName = "";
+
+    string CrossTransposeMatrixOne = "";
+    string CrossTransposeMatrixTwo = "";
 
     IndexingStrategy indexingStrategy = NOTHING;
     string indexColumnName = "";
@@ -75,8 +87,10 @@ public:
     string joinSecondColumnName = "";
 
     string loadRelationName = "";
+    string loadMatrixName = "";
 
     string printRelationName = "";
+    string printMatrixName = "";
 
     string projectionResultRelationName = "";
     vector<string> projectionColumnList;
@@ -110,16 +124,23 @@ bool syntacticParseCLEAR();
 bool syntacticParseCROSS();
 bool syntacticParseDISTINCT();
 bool syntacticParseEXPORT();
+bool syntacticParseEXPORTMATRIX();
 bool syntacticParseINDEX();
 bool syntacticParseJOIN();
 bool syntacticParseLIST();
 bool syntacticParseLOAD();
+bool syntacticParseLOADMATRIX();
 bool syntacticParsePRINT();
+bool syntacticParsePRINTMATRIX();
+bool syntacticParseCROSSTRANSPOSE();
 bool syntacticParsePROJECTION();
 bool syntacticParseRENAME();
 bool syntacticParseSELECTION();
 bool syntacticParseSORT();
 bool syntacticParseSOURCE();
 
-bool isFileExists(string tableName);
+bool isFileExists(string relationName);
 bool isQueryFile(string fileName);
+bool isMatrix(string matrixName);
+
+#endif

@@ -3,14 +3,17 @@
 
 using namespace std;
 
-float BLOCK_SIZE = 1;
-uint BLOCK_COUNT = 2;
+float BLOCK_SIZE = 8;
+uint BLOCK_COUNT = 16;
 uint PRINT_COUNT = 20;
 Logger logger;
 vector<string> tokenizedQuery;
 ParsedQuery parsedQuery;
 TableCatalogue tableCatalogue;
+MatrixCatalogue matrixCatalogue;
 BufferManager bufferManager;
+MatrixBufferManager matrixBufferManager;
+int MATRIX_DIM;
 
 void doCommand()
 {
@@ -27,6 +30,8 @@ int main(void)
     string command;
     system("rm -rf ../data/temp");
     system("mkdir ../data/temp");
+
+    MATRIX_DIM = (int)sqrt((BLOCK_SIZE * 1024) / sizeof(int));
 
     while(!cin.eof())
     {
@@ -56,6 +61,7 @@ int main(void)
         if (tokenizedQuery.size() == 1)
         {
             cout << "SYNTAX ERROR" << endl;
+            cout << "flag 2" << endl;
             continue;
         }
 

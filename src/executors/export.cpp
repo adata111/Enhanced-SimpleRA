@@ -33,5 +33,16 @@ void executeEXPORT()
     logger.log("executeEXPORT");
     Table* table = tableCatalogue.getTable(parsedQuery.exportRelationName);
     table->makePermanent();
+    
+    // if (matrixCatalogue.isMatrix(parsedQuery.exportRelationName))
+    // {
+    //     Matrix* matrix = matrixCatalogue.getMatrix(parsedQuery.exportRelationName);
+    //     matrix->makePermanent();
+    // }
+    // else
+    // {
+    //     Table* table = tableCatalogue.getTable(parsedQuery.exportRelationName);
+    //     table->makePermanent();
+    // }
     return;
 }
