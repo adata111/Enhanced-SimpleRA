@@ -14,12 +14,12 @@ MatrixPage::MatrixPage()
 
 /**
  * @brief Construct a new Page:: Page object given the table name and page
- * index. When tables are loaded they are broken up into blocks of BLOCK_SIZE
- * and each block is stored in a different file named
- * "<tablename>_Page<pageindex>". For example, If the Page being loaded is of
- * table "R" and the pageIndex is 2 then the file name is "R_Page2". The page
- * loads the rows (or tuples) into a vector of rows (where each row is a vector
- * of integers).
+ * index. When matrices are loaded they are broken up into sub-matrices of 
+ * MATRIX_DIM dimension and each block is stored in a different file named
+ * "<matrixName>_Page_<rowindex>_<colIndex>". For example, If the Page being
+ * loaded is of matrix "R" and the pageIndex is 2 then the file name is "R_Page2".
+ * The page loads the rows (or tuples) into a vector of rows (where each row 
+ * is a vector of integers).
  *
  * @param matrixName 
  * @param pageIndex 

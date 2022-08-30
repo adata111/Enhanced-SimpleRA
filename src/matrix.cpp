@@ -89,11 +89,11 @@ void Matrix::writeLineToTerminal(vector<int> line)
 int Matrix::getNumCols(string line)
 {
     int count = 0;
-    for (auto &ch : line)
-    {
+    for (auto &ch : line){
         if (ch == ','){count++;}
     }
 
+    // if it is "," it would have already been counted
     if (line.back() != ','){count++;}
     return count;
 }
@@ -105,8 +105,7 @@ bool Matrix::blockify()
 
     ifstream fin(this->sourceFileName, ios::in);
 
-    if (fin.peek() == ifstream::traits_type::eof())
-    {
+    if (fin.peek() == ifstream::traits_type::eof()){
         cout << "ERROR: Input file is empty." << endl;
         return false;
     }
@@ -129,8 +128,7 @@ bool Matrix::writeBlock()
     int block_num = this->blockCount;
     int rows = 0;
 
-    while (bj < block_num)
-    {
+    while (bj < block_num){
         ifstream fin(this->sourceFileName, ios::in);
         vector<vector<int>> curr_pg(MATRIX_DIM, vector<int>(MATRIX_DIM, -1));
         int block_itr = 0, bi = 0;
@@ -147,13 +145,11 @@ bool Matrix::writeBlock()
                     return false;
                 }
             }
-            if (block_itr < MATRIX_DIM)
-            {
+            if (block_itr < MATRIX_DIM){
                 curr_pg[block_itr] = this->getSubMatRow(l, bj);
                 block_itr++;
             }
-            else
-            {
+            else{
                 matrixBufferManager.writeMatrixPage(this->matrixName, bi, bj, curr_pg);
                 bi++;
                 curr_pg.assign(MATRIX_DIM, vector<int>(MATRIX_DIM, -1));

@@ -167,22 +167,46 @@ bool isQueryFile(string fileName){
     return (stat(fileName.c_str(), &buffer) == 0);
 }
 
+const std::string whitespace = " \n\r\t";
+
+std::string syn_ltrim(const std::string &s)
+{
+    size_t start = s.find_first_not_of(whitespace);
+    if(start == std::string::npos)
+        return "";
+    return s.substr(start);
+}
+ 
+std::string syn_rtrim(const std::string &s)
+{
+    size_t end = s.find_last_not_of(whitespace);
+    if(end == std::string::npos)
+        return "";
+    return s.substr(0, end+1);
+}
+ 
+std::string syn_trim(const std::string &s) {
+    return syn_rtrim(syn_ltrim(s));
+}
+
+
+/**
+ * @brief Check if a file is in matrix form.
+ * Checks if the first entry is an integer
+ */
 bool isMatrix(string matrixName)
 {
+    string firstEntry;
     string fileName = "../data/" + matrixName + ".csv";
     ifstream fin(fileName, ios::in);
+    getline(fin, firstEntry, ',');
+    firstEntry = syn_trim(firstEntry);
 
-    string firstWord;
-    getline(fin, firstWord, ',');
-    firstWord.erase(std::remove_if(firstWord.begin(), firstWord.end(), ::isspace), firstWord.end());
-
-    try
-    {
-        stoi(firstWord);
+    try{
+        stoi(firstEntry);
         return true;
     }
-    catch (exception e)
-    {
+    catch (exception e){
         return false;
     }
 }
