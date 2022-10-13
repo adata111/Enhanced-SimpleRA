@@ -78,6 +78,10 @@ void groupBy(Table *table, string resGroupby, string grpAttr, string retType)
             if (grMap.count(r[colIdx]) == 0)
             {
                 grMap.insert(pair<int, int>(r[colIdx], r[retCol]));
+                if(retOp == "AVG")
+                {
+                    cntMap.insert(pair<int, int>(r[colIdx], 1));
+                }
             }
             else
             {
@@ -102,14 +106,10 @@ void groupBy(Table *table, string resGroupby, string grpAttr, string retType)
                 else if (retOp == "AVG")
                 {
                     grMap[r[colIdx]] += r[retCol];
-                    if (cntMap.count(r[colIdx]) == 0)
-                    {
-                        cntMap.insert(pair<int, int>(r[colIdx], 1));
-                    }
-                    else
-                    {
-                        cntMap[r[colIdx]]++;
-                    }
+                    // cout << "KEY = " << r[colIdx] << endl;
+                    // cout << "count = " << cntMap[r[colIdx]] << endl; 
+                    cntMap[r[colIdx]]++;
+                    
                 }
             }
         }
@@ -119,7 +119,8 @@ void groupBy(Table *table, string resGroupby, string grpAttr, string retType)
     {
         for (auto &j : grMap)
         {
-            // cout << "NUM = " << cntMap[j.first] << endl;   
+            // cout << "NUM = " << cntMap[j.first] << endl;
+            // cout << "PREVIOUS = " << j.second << endl; 
             j.second = j.second / cntMap[j.first];
             // cout << "UPDATED = " << j.second << endl;
         }
