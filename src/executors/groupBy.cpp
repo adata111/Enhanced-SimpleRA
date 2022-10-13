@@ -6,7 +6,7 @@ bool syntacticParseGROUPBY()
     logger.log("syntacticParseGROUPBY");
     if (tokenizedQuery.size() != 9 || tokenizedQuery[5] != "FROM" || tokenizedQuery[7] != "RETURN")
     {
-        cout << "SYNTAC ERROR" << endl;
+        cout << "SYNTAX ERROR" << endl;
         return false;
     }
 
