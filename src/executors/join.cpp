@@ -11,7 +11,7 @@ bool syntacticParseJOIN()
     logger.log("syntacticParseJOIN");
     if (tokenizedQuery.size() != 13 || tokenizedQuery[7] != "ON" || tokenizedQuery[11] != "BUFFER" || (tokenizedQuery[4] != "NESTED" && tokenizedQuery[4] != "PARTHASH"))
     {
-        cout << "SYNTAC ERROR" << endl;
+        cout << "SYNTAX ERROR" << endl;
         return false;
     }
     parsedQuery.queryType = JOIN;
