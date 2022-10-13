@@ -41,6 +41,13 @@ bool syntacticParseJOIN()
         cout << "SYNTAX ERROR" << endl;
         return false;
     }
+
+    if(parsedQuery.joinBinaryOperator != EQUAL && parsedQuery.joinType == "PARTHASH")
+    {
+        cout << "Use nested join for conditions other than ==\n";
+        return false;
+    }
+    
     return true;
 }
 
@@ -309,8 +316,16 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
         data.clear();
         pgIdx++;
     }
+    
+    if(res->rowCount > 0)
+    {
+        tableCatalogue.insertTable(res);
+    }
+    else
+    {
+        cout << "Result of Join is empty table\n";
+    }
 
-    tableCatalogue.insertTable(res);
     cout << "Number of Block Accesses: " << blockAcc << endl;
     blockAcc = 0;
     return;
@@ -499,7 +514,15 @@ void partHashJoin(Table *t1, Table *t2, string col1, string col2, string resJoin
         pgIdx++;
     }
 
-    tableCatalogue.insertTable(res);
+    if(res->rowCount > 0)
+    {
+        tableCatalogue.insertTable(res);
+    }
+    else
+    {
+        cout << "Result of Join is empty table\n";
+    }
+
     cout << "Number of Block Accesses: " << blockAcc << endl;
     blockAcc = 0;
     return;
