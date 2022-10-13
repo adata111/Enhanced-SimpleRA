@@ -136,36 +136,19 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
         // cout << "round " << i << endl;
         vector<vector<int>> buffPages;
         // Reading buffsize - 2 number of blocks at a time.
-        for (int j = 0; j < buffSize - 2 && j < smallTable->blockCount; j++)
+        for (int j = 0; (j < (buffSize - 2)) && ((i+j) < smallTable->blockCount); j++)
         {
+            // cout << "reading page " << i+j << endl;
             Page this_page = bufferManager.getPage(smallTable->tableName, i + j);
             // cout << "read " << j << "th page successfully\n";
             int row_num = this_page.numRows();
             // cout << "number of rows on the page = " << row_num << endl;
             for (int k = 0; k < row_num; k++)
             {
-                // cout << "row num = " << k << endl;
                 vector<int> tempVec = this_page.getRow(k);
-                // for (int v = 0; v < tempVec.size(); v++)
-                // {
-                //     cout << tempVec[v] << " ";
-                // }
-                // cout << endl;
                 buffPages.push_back(tempVec);
-                // cout << "read " << k << "th row successfully\n";
             }
         }
-
-        // cout << "Buffpages: \n";
-        // for (int h = 0; h < buffPages.size(); h++)
-        // {
-        //     for (int v = 0; v < buffPages[h].size(); v++)
-        //     {
-        //         cout << buffPages[h][v] << " ";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << endl;
 
         // Reading the larger table block by block
         for (int y = 0; y < bigTable->blockCount; y++)
@@ -179,24 +162,9 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
             {
                 // cout << "reading row " << k << endl;
                 vector<int> r = tablePage.getRow(k);
-                // for (int v = 0; v < r.size(); v++)
-                // {
-                //     cout << r[v] << " ";
-                // }
-                // cout << endl;
 
                 for (int x = 0; x < buffPages.size(); x++)
                 {
-                    // cout << "checking for - \n";
-                    // for (int v = 0; v < buffPages[x].size(); v++)
-                    // {
-                    //     cout << buffPages[x][v] << " ";
-                    // }
-                    // cout << endl;
-
-                    // cout << "buffpage ele = " << buffPages[x][colIdxSmall] << endl;
-                    // cout << "big pg row ele = " << r[colIdxBig] << endl;
-
                     // t1.colIdx1 < t2.colIdx2
                     if (parsedQuery.joinBinaryOperator == LESS_THAN)
                     {
@@ -299,15 +267,6 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
                     {
                         if (data.size() == res->maxRowsPerBlock)
                         {
-                            // cout << "writing " << pgIdx << endl;
-                            // for (int h = 0; h < data.size(); h++)
-                            // {
-                            //     for (int v = 0; v < data[h].size(); v++)
-                            //     {
-                            //         cout << data[h][v] << " ";
-                            //     }
-                            // }
-                            // cout << endl;
                             Page *pgJoin = new Page(res->tableName, pgIdx, data, data.size());
                             pgJoin->writePage();
                             res->rowsPerBlockCount.push_back(data.size());
@@ -315,90 +274,23 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
                             res->rowCount += data.size();
                             data.clear();
                             pgIdx++;
-                            // cout << "next pgIndex = " << pgIdx << endl;
                         }
                         {
                             if (small == 1 && big == 2)
                             {
-                                // cout << "joining " << x << "th row of first table block and " << k << "th row of second table block\n";
                                 vector<int> temp2 = buffPages[x];
                                 temp2.insert(temp2.end(), r.begin(), r.end());
                                 data.push_back(temp2);
-                                // cout << "joint row\n";
-                                // for (int v = 0; v < temp2.size(); v++)
-                                // {
-                                //     cout << temp2[v] << " ";
-                                // }
-                                // cout << endl;
                                 temp2.clear();
                             }
                             else
                             {
-                                // cout << "joining " << k << "th row of first table block and " << x << "th row of second table block\n";
                                 vector<int> temp2 = r;
                                 temp2.insert(temp2.end(), buffPages[x].begin(), buffPages[x].end());
                                 data.push_back(temp2);
-                                // cout << "joint row\n";
-                                // for (int v = 0; v < temp2.size(); v++)
-                                // {
-                                //     cout << temp2[v] << " ";
-                                // }
-                                // cout << endl;
                                 temp2.clear();
                             }
                         }
-                        // if (data.size() < res->maxRowsPerBlock)
-                        // {
-                        //     if (small == 1 && big == 2)
-                        //     {
-                        //         // cout << "joining " << x << "th row of first table block and " << k << "th row of second table block\n";
-                        //         vector<int> temp2 = buffPages[x];
-                        //         temp2.insert(temp2.end(), r.begin(), r.end());
-                        //         data.push_back(temp2);
-                        //         cout << "joint row\n";
-                        //         for (int v = 0; v < temp2.size(); v++)
-                        //         {
-                        //             cout << temp2[v] << " ";
-                        //         }
-                        //         cout << endl;
-                        //         temp2.clear();
-                        //     }
-                        //     else
-                        //     {
-                        //         // cout << "joining " << k << "th row of first table block and " << x << "th row of second table block\n";
-                        //         vector<int> temp2 = r;
-                        //         temp2.insert(temp2.end(), buffPages[x].begin(), buffPages[x].end());
-                        //         data.push_back(temp2);
-                        //         cout << "joint row\n";
-                        //         for (int v = 0; v < temp2.size(); v++)
-                        //         {
-                        //             cout << temp2[v] << " ";
-                        //         }
-                        //         cout << endl;
-                        //         temp2.clear();
-                        //     }
-                        // }
-
-                        // else
-                        // {
-                        //     cout << "writing " << pgIdx << endl;
-                        //     for (int h = 0; h < data.size(); h++)
-                        //     {
-                        //         for (int v = 0; v < data[h].size(); v++)
-                        //         {
-                        //             cout << data[h][v] << " ";
-                        //         }
-                        //     }
-                        //     cout << endl;
-                        //     Page *pgJoin = new Page(res->tableName, pgIdx, data, data.size());
-                        //     pgJoin->writePage();
-                        //     res->rowsPerBlockCount.push_back(data.size());
-                        //     res->blockCount++;
-                        //     res->rowCount += data.size();
-                        //     data.clear();
-                        //     pgIdx++;
-                        //     cout << "next pgIndex = " << pgIdx << endl;
-                        // }
 
                         joinFlag = 0;
                     }
@@ -409,15 +301,6 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
 
     if (data.size() != 0)
     {
-        // cout << "writing " << pgIdx << endl;
-        // for (int h = 0; h < data.size(); h++)
-        // {
-        //     for (int v = 0; v < data[h].size(); v++)
-        //     {
-        //         cout << data[h][v] << " ";
-        //     }
-        // }
-        cout << endl;
         Page *pgJoin = new Page(res->tableName, pgIdx, data, data.size());
         pgJoin->writePage();
         res->blockCount++;
@@ -425,7 +308,6 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
         res->rowsPerBlockCount.push_back(data.size());
         data.clear();
         pgIdx++;
-        // cout << "next pgIndex = " << pgIdx << endl;
     }
 
     tableCatalogue.insertTable(res);
@@ -510,13 +392,10 @@ void partHashJoin(Table *t1, Table *t2, string col1, string col2, string resJoin
 
     buck1 = t1Hash.first;
     buck2 = t2Hash.first;
-    cout << "hash done\n";
-    // Extracting column names of both tables
     vector<string> colName = t1->columns;
     colName.insert(colName.end(), t2->columns.begin(), t2->columns.end());
     // Creating new table for result
     Table *res = new Table(resJoin, colName);
-    // cout << "created table " << resJoin << endl;
 
     vector<vector<int>> data;
     int pgIdx = 0;
@@ -569,7 +448,6 @@ void partHashJoin(Table *t1, Table *t2, string col1, string col2, string resJoin
         {
             string tnameBig = bigTable->tableName + to_string(i);
             Page tablePage = bufferManager.getHashPage(tnameBig, y, bigRow[i][y], bigTable->columnCount);
-            // joinHelper(res, tablePage, attrMap, colIdxBig, sml);
             int row_num = tablePage.numRows();
             // cout << "max rows per block = " << res->maxRowsPerBlock << endl;
             // Read the page row by row and join with corresponding rows in the map
@@ -578,7 +456,7 @@ void partHashJoin(Table *t1, Table *t2, string col1, string col2, string resJoin
                 vector<int> r = tablePage.getRow(k);
                 for (int z = 0; z < attrMap[r[colIdxBig]].size(); z++)
                 {
-                    cout << "data vector size = " << data.size() << endl;
+                    // cout << "data vector size = " << data.size() << endl;
                     if (data.size() == res->maxRowsPerBlock)
                     {
                         Page *pgJoin = new Page(res->tableName, pgIdx, data, data.size());
@@ -595,74 +473,19 @@ void partHashJoin(Table *t1, Table *t2, string col1, string col2, string resJoin
                             vector<int> temp2 = attrMap[r[colIdxBig]][z];
                             temp2.insert(temp2.end(), r.begin(), r.end());
                             data.push_back(temp2);
-                            // for (int v = 0; v < temp2.size(); v++)
-                            // {
-                            //     cout << temp2[v] << " ";
-                            // }
-                            // cout << endl;
                         }
                         else
                         {
                             vector<int> temp2 = r;
                             temp2.insert(temp2.end(), attrMap[r[colIdxBig]][z].begin(), attrMap[r[colIdxBig]][z].end());
                             data.push_back(temp2);
-                            // for (int v = 0; v < temp2.size(); v++)
-                            // {
-                            //     cout << temp2[v] << " ";
-                            // }
-                            // cout << endl;
                         }
                     }
 
-                    // if (data.size() < res->maxRowsPerBlock)
-                    // {
-                    //     if (sml == 1)
-                    //     {
-                    //         vector<int> temp2 = attrMap[r[colIdxBig]][z];
-                    //         temp2.insert(temp2.end(), r.begin(), r.end());
-                    //         data.push_back(temp2);
-                    //         // for (int v = 0; v < temp2.size(); v++)
-                    //         // {
-                    //         //     cout << temp2[v] << " ";
-                    //         // }
-                    //         // cout << endl;
-                    //     }
-                    //     else
-                    //     {
-                    //         vector<int> temp2 = r;
-                    //         temp2.insert(temp2.end(), attrMap[r[colIdxBig]][z].begin(), attrMap[r[colIdxBig]][z].end());
-                    //         data.push_back(temp2);
-                    //         // for (int v = 0; v < temp2.size(); v++)
-                    //         // {
-                    //         //     cout << temp2[v] << " ";
-                    //         // }
-                    //         // cout << endl;
-                    //     }
-                    // }
-
-                    // else
-                    // {
-                    //     Page *pgJoin = new Page(res->tableName, pgIdx, data, data.size());
-                    //     pgJoin->writePage();
-                    //     res->rowsPerBlockCount.push_back(data.size());
-                    //     res->blockCount++;
-                    //     res->rowCount += data.size();
-                    //     data.clear();
-                    //     pgIdx++;
-                    // }
                 }
             }
         }
 
-        // cout << "data vector\n";
-        // for (int b = 0; b < data.size(); b++)
-        // {
-        //     for (int a = 0; a < data[b].size(); a++)
-        //     {
-        //         cout << data[b][a] << " ";
-        //     }
-        //     cout << endl;
-        // }
     }
 
     if (data.size() != 0)

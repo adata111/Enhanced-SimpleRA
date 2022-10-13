@@ -13,7 +13,7 @@ bool syntacticParseGROUPBY()
     parsedQuery.queryType = GROUPBY;
     parsedQuery.groupbyResTable = tokenizedQuery[0];
     parsedQuery.groupbyAttribute = tokenizedQuery[4];
-    cout << "Group by " << parsedQuery.groupbyAttribute << endl;
+    // cout << "Group by " << parsedQuery.groupbyAttribute << endl;
     parsedQuery.groupbyRelationName = tokenizedQuery[6];
     parsedQuery.groupbyReturn = tokenizedQuery[8];
 
@@ -24,8 +24,8 @@ bool semanticParseGROUPBY()
 {
     logger.log("semanticParseGROUPBY");
     string retColName = (parsedQuery.groupbyReturn).substr(4, (parsedQuery.groupbyReturn).size() - 5);
-    cout << "ret col name = " << retColName << endl;
-    cout << "table = " << parsedQuery.groupbyRelationName << endl;
+    // cout << "ret col name = " << retColName << endl;
+    // cout << "table = " << parsedQuery.groupbyRelationName << endl;
 
     if (tableCatalogue.isTable(parsedQuery.groupbyResTable))
     {
@@ -45,11 +45,6 @@ bool semanticParseGROUPBY()
         return false;
     }
 
-    // if (!tableCatalogue.isColumnFromTable(parsedQuery.groupbyRelationName, parsedQuery.groupbyAttribute) || !tableCatalogue.isColumnFromTable(parsedQuery.groupbyRelationName, retColName))
-    // {
-    //     cout << "SEMANTIC ERROR: Column doesn't exist in relation" << endl;
-    //     return false;
-    // }
     return true;
 }
 
@@ -59,9 +54,9 @@ void groupBy(Table *table, string resGroupby, string grpAttr, string retType)
     string retColName = retType.substr(4, retType.size() - 5);
     string retOp = retType.substr(0, 3);
     string newCol = retOp + retColName;
-    cout << "Return op = " << retOp << endl;
-    cout << "Return op over column " << retColName << endl;
-    cout << "New column = " << newCol << endl;
+    // cout << "Return op = " << retOp << endl;
+    // cout << "Return op over column " << retColName << endl;
+    // cout << "New column = " << newCol << endl;
 
     vector<string> colName;
     colName.push_back(grpAttr);
@@ -124,17 +119,17 @@ void groupBy(Table *table, string resGroupby, string grpAttr, string retType)
     {
         for (auto &j : grMap)
         {
-            cout << "NUM = " << cntMap[j.first] << endl;   
+            // cout << "NUM = " << cntMap[j.first] << endl;   
             j.second = j.second / cntMap[j.first];
-            cout << "UPDATED = " << j.second << endl;
+            // cout << "UPDATED = " << j.second << endl;
         }
     }
 
     vector<int> data;
     for(auto k: grMap)
     {
-        cout << "first = " << k.first << endl;
-        cout << "sec = " << k.second << endl;
+        // cout << "first = " << k.first << endl;
+        // cout << "sec = " << k.second << endl;
         data.push_back(k.first);
         data.push_back(k.second);
         res->writeRow<int>(data);
