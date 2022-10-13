@@ -63,6 +63,8 @@ bool syntacticParse()
             return syntacticParseSELECTION();
         else if (possibleQueryType == "JOIN")
             return syntacticParseJOIN();
+        else if(possibleQueryType == "GROUP" && tokenizedQuery[3] == "BY")
+            return syntacticParseGROUPBY();
         else if (possibleQueryType == "CROSS")
             return syntacticParseCROSS();
         else if (possibleQueryType == "DISTINCT")
@@ -109,6 +111,13 @@ void ParsedQuery::clear()
     this->joinSecondRelationName = "";
     this->joinFirstColumnName = "";
     this->joinSecondColumnName = "";
+    this->joinType = "";
+    this->joinBuffer = 0;
+
+    this->groupbyAttribute = "";
+    this->groupbyRelationName = "";
+    this->groupbyReturn = "";
+    this->groupbyResTable = "";
 
     this->loadRelationName = "";
 

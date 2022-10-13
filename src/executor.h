@@ -9,6 +9,7 @@ void executeEXPORT();
 void executeEXPORTMATRIX();
 void executeINDEX();
 void executeJOIN();
+void executeGROUPBY();
 void executeLIST();
 void executeLOAD();
 void executeLOADMATRIX();

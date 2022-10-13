@@ -9,6 +9,7 @@ bool semanticParseEXPORT();
 bool semanticParseEXPORTMATRIX();
 bool semanticParseINDEX();
 bool semanticParseJOIN();
+bool semanticParseGROUPBY();
 bool semanticParseLIST();
 bool semanticParseLOAD();
 bool semanticParseLOADMATRIX();

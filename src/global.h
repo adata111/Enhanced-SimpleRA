@@ -6,6 +6,7 @@ extern float BLOCK_SIZE;
 extern uint BLOCK_COUNT;
 extern uint PRINT_COUNT;
 extern int MATRIX_DIM;
+extern int blockAcc;
 extern vector<string> tokenizedQuery;
 extern ParsedQuery parsedQuery;
 extern BufferManager bufferManager;

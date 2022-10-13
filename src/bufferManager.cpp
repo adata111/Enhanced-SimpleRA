@@ -23,6 +23,16 @@ Page BufferManager::getPage(string tableName, int pageIndex)
         return this->insertIntoPool(tableName, pageIndex);
 }
 
+Page BufferManager::getHashPage(string tableName, int pageIndex, int cntRow, int cntCol)
+{
+    logger.log("BufferManager::getPage");
+    string pageName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
+    if (this->inPool(pageName))
+        return this->getFromPool(pageName);
+    else
+        return this->insertHashIntoPool(tableName, pageIndex, cntRow, cntCol);
+}
+
 /**
  * @brief Checks to see if a page exists in the pool
  *
@@ -40,7 +50,7 @@ bool BufferManager::inPool(string pageName)
     }
     return false;
 }
-
+ 
 /**
  * @brief If the page is present in the pool, then this function returns the
  * page. Note that this function will fail if the page is not present in the
@@ -69,7 +79,19 @@ Page BufferManager::getFromPool(string pageName)
 Page BufferManager::insertIntoPool(string tableName, int pageIndex)
 {
     logger.log("BufferManager::insertIntoPool");
+    blockAcc++;
     Page page(tableName, pageIndex);
+    if (this->pages.size() >= BLOCK_COUNT)
+        pages.pop_front();
+    pages.push_back(page);
+    return page;
+}
+
+Page BufferManager::insertHashIntoPool(string tableName, int pageIndex, int cntRow, int cntCol)
+{
+    logger.log("BufferManager::insertIntoPool");
+    blockAcc++;
+    Page page(tableName, pageIndex, cntRow, cntCol);
     if (this->pages.size() >= BLOCK_COUNT)
         pages.pop_front();
     pages.push_back(page);

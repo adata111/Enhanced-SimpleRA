@@ -264,6 +264,7 @@ void Table::getNextPage(Cursor *cursor)
 void Table::makePermanent()
 {
     logger.log("Table::makePermanent");
+    // cout << "inside make permanent\n";
     if(!this->isPermanent())
         bufferManager.deleteFile(this->sourceFileName);
     string newSourceFile = "../data/" + this->tableName + ".csv";
@@ -274,6 +275,7 @@ void Table::makePermanent()
 
     Cursor cursor(this->tableName, 0);
     vector<int> row;
+    // cout << "row count = " << this->rowCount << endl;
     for (int rowCounter = 0; rowCounter < this->rowCount; rowCounter++)
     {
         row = cursor.getNext();
@@ -281,7 +283,7 @@ void Table::makePermanent()
     }
     fout.close();
 }
-
+ 
 /**
  * @brief Function to check if table is already exported
  *

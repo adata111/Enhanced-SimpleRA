@@ -86,4 +86,4 @@ void writeRow(vector<T> row)
     this->writeRow(row, fout);
     fout.close();
 }
-};
+}; 

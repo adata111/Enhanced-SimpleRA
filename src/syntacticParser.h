@@ -15,6 +15,7 @@ enum QueryType
     EXPORTMATRIX,
     INDEX,
     JOIN,
+    GROUPBY,
     LIST,
     LOAD,
     LOADMATRIX,
@@ -85,6 +86,13 @@ public:
     string joinSecondRelationName = "";
     string joinFirstColumnName = "";
     string joinSecondColumnName = "";
+    string joinType = "";
+    int joinBuffer = 0;
+
+    string groupbyAttribute = "";
+    string groupbyRelationName = "";
+    string groupbyReturn = "";
+    string groupbyResTable = "";
 
     string loadRelationName = "";
     string loadMatrixName = "";
@@ -127,6 +135,8 @@ bool syntacticParseEXPORT();
 bool syntacticParseEXPORTMATRIX();
 bool syntacticParseINDEX();
 bool syntacticParseJOIN();
+bool syntacticParseGROUPBY();
+bool syntacticParseGROUPBY();
 bool syntacticParseLIST();
 bool syntacticParseLOAD();
 bool syntacticParseLOADMATRIX();

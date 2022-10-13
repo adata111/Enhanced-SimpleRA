@@ -3,11 +3,12 @@
 
 using namespace std;
 
-float BLOCK_SIZE = 8;
+float BLOCK_SIZE = 0.036;
 uint BLOCK_COUNT = 16;
 uint PRINT_COUNT = 20;
 Logger logger;
 vector<string> tokenizedQuery;
+int blockAcc;
 ParsedQuery parsedQuery;
 TableCatalogue tableCatalogue;
 MatrixCatalogue matrixCatalogue;

@@ -28,11 +28,13 @@ class BufferManager{
     bool inPool(string pageName);
     Page getFromPool(string pageName);
     Page insertIntoPool(string tableName, int pageIndex);
+    Page insertHashIntoPool(string tableName, int pageIndex, int cntRow, int cntCol);
     
     public:
     
     BufferManager();
     Page getPage(string tableName, int pageIndex);
+    Page getHashPage(string tableName, int pageIndex, int cntRow, int cntCol);
     void writePage(string pageName, vector<vector<int>> rows);
     void deleteFile(string tableName, int pageIndex);
     void deleteFile(string fileName);

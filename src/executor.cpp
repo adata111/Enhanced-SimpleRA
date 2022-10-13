@@ -10,6 +10,7 @@ void executeCommand(){
         case EXPORTMATRIX: executeEXPORTMATRIX(); break;
         case INDEX: executeINDEX(); break;
         case JOIN: executeJOIN(); break;
+        case GROUPBY: executeGROUPBY(); break;
         case LIST: executeLIST(); break;
         case LOAD: executeLOAD(); break;
         case LOADMATRIX: executeLOADMATRIX(); break;

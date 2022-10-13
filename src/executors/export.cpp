@@ -21,6 +21,7 @@ bool syntacticParseEXPORT()
 bool semanticParseEXPORT()
 {
     logger.log("semanticParseEXPORT");
+    // cout << "Table name = " << parsedQuery.exportRelationName << endl;
     //Table should exist
     if (tableCatalogue.isTable(parsedQuery.exportRelationName))
         return true;
