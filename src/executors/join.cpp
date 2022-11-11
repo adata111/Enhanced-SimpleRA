@@ -94,7 +94,7 @@ map<int, vector<vector<int>>> mapify(vector<vector<int>> buffPages, int colIdx)
     return attrMap;
 }
 
-void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, int buffSize, auto binOp)
+void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, int buffSize, BinaryOperator binOp)
 {
     // cout << col1 << endl;
     // cout << col2 << endl;
@@ -321,6 +321,7 @@ void nestedJoin(Table *t1, Table *t2, string col1, string col2, string resJoin, 
     {
         tableCatalogue.insertTable(res);
     }
+    
     else
     {
         cout << "Result of Join is empty table\n";
@@ -537,7 +538,7 @@ void executeJOIN()
     string col1 = parsedQuery.joinFirstColumnName;
     string col2 = parsedQuery.joinSecondColumnName;
     int buffSize = parsedQuery.joinBuffer;
-    auto binOp = parsedQuery.joinBinaryOperator;
+    BinaryOperator binOp = parsedQuery.joinBinaryOperator;
     string resTable = parsedQuery.joinResultRelationName;
     if (parsedQuery.joinType == "NESTED")
     {

@@ -141,3 +141,8 @@ int Page::numRows()
 {
     return this->rowCount;
 }
+
+vector<vector<int>> Page::allRows()
+{
+    return this->rows;
+}
