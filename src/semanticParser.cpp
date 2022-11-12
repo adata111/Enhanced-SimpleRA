@@ -21,6 +21,7 @@ bool semanticParse(){
         case RENAME: return semanticParseRENAME();
         case SELECTION: return semanticParseSELECTION();
         case SORT: return semanticParseSORT();
+        case UPDATION: return semanticParseUPDATION();
         case SOURCE: return semanticParseSOURCE();
         default: cout<<"SEMANTIC ERROR"<<endl;
     }

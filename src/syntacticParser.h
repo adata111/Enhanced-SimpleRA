@@ -25,6 +25,7 @@ enum QueryType
     RENAME,
     SELECTION,
     SORT,
+    UPDATION,
     SOURCE,
     CROSSTRANSPOSE,
     UNDETERMINED
@@ -123,6 +124,11 @@ public:
     int sortBufferSize = 10;
     string sourceFileName = "";
 
+    string updationTableName = "";
+    string updationColumnName = "";
+    string updationOperator = "";
+    string updationValue = "";
+
     ParsedQuery();
     void clear();
 };
@@ -147,6 +153,7 @@ bool syntacticParsePROJECTION();
 bool syntacticParseRENAME();
 bool syntacticParseSELECTION();
 bool syntacticParseSORT();
+bool syntacticParseUPDATION();
 bool syntacticParseSOURCE();
 
 bool isFileExists(string relationName);

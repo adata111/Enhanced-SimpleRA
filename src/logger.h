@@ -5,6 +5,7 @@
 #include<bits/stdc++.h>
 #include<sys/stat.h> 
 #include<fstream>
+#include<unistd.h>
 
 using namespace std;
 

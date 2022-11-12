@@ -1,6 +1,6 @@
 #ifndef __GLOBAL_H
 #define __GLOBAL_H
-#include"executor.h"
+#include "executor.h"
 
 extern float BLOCK_SIZE;
 extern uint BLOCK_COUNT;
@@ -13,5 +13,7 @@ extern BufferManager bufferManager;
 extern MatrixBufferManager matrixBufferManager;
 extern TableCatalogue tableCatalogue;
 extern MatrixCatalogue matrixCatalogue;
+extern LockingManager lockingManager;
+
 
 #endif

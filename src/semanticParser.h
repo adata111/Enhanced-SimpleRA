@@ -20,4 +20,5 @@ bool semanticParsePROJECTION();
 bool semanticParseRENAME();
 bool semanticParseSELECTION();
 bool semanticParseSORT();
+bool semanticParseUPDATION();
 bool semanticParseSOURCE();

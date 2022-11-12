@@ -28,9 +28,10 @@ class Page{
     Page(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount);
     Page(string tableName, int pageIndex, int cntRow, int cntCol);
     vector<int> getRow(int rowIndex);
-    vector<vector<int>> allRows();
     void writePage();
     int numRows();
+    vector<vector<int>> allRows();
+    void updateRowIndex(int rowInd,int colInd,int newValue);
 
 };
 

@@ -145,21 +145,20 @@ void executeSORT()
     // Till the number of pagesets is not 1
     while (pgsetNum != 1)
     {
-        // reading nb-1 pagesets (for round 1, each pageset will have just 1 page)
-        // line 135 for loop: iterating over sets of nb-1 pagesets
-        // if nb-1 = 3,
-        // then we are reading {(1,2,3)(4,5,6)(7,8,9)},{(10,11,12)(13,14,15)(16,17,18)} at a time.
-        // line 151 for loop: reads first rows of first pages of each pageset in the overall set that is being considered together
-        // for {(1,2,3)(4,5,6)(7,8,9)} set, the loop reads first rows of pg 1,4 and 7 which are alloted page indices 0,1 and 2 and then breaks
+    	/*
+        reading nb-1 pagesets (for round 1, each pageset will have just 1 page)
+        if nb-1 = 3,
+        then we are reading {(1,2,3)(4,5,6)(7,8,9)},{(10,11,12)(13,14,15)(16,17,18)} at a time.
+        read first rows of first pages of each pageset in the overall set that is being considered together
+        for {(1,2,3)(4,5,6)(7,8,9)} set, the loop reads first rows of pg 1,4 and 7 which are alloted page indices 0,1 and 2 and then breaks
+        */
 
         // iterating over sets of sortBuffSize number of pagesets
 
         pgsetNum = 0;
         int pgwriteNum = 0;
-        cout << "sort round = " << sortRound << "\n";
         for (int pgsetIdx = 0; pgsetIdx < blkCnt; pgsetIdx += pow(sortBuffSize, sortRound))
         {
-            cout << "pageset index = " << pgsetIdx << "\n";
             pgsetNum += 1;
             vector<Page> buffPages;
             vector<vector<int>> writeRows;
@@ -187,21 +186,8 @@ void executeSORT()
                 pgLoaded[k] = pgLoadIdx;
                 k++;
                 vector<int> firstRow = buffPages[buffPages.size() - 1].getRow(0);
-                cout << "first page first row\n";
-                for (int t = 0; t < firstRow.size(); t++)
-                {
-                    cout << firstRow[t] << " ";
-                }
-                cout << endl;
                 sortVec.push_back(make_pair(buffPages.size() - 1, firstRow[columnIndex]));
             }
-
-            cout << "sort vector\n";
-            for (int j = 0; j < sortVec.size(); j++)
-            {
-                cout << sortVec[j].second << " ";
-            }
-            cout << endl;
 
             while (sortVec.size() > 0)
             {
@@ -215,17 +201,9 @@ void executeSORT()
                 }
 
                 int pgIdx = sortVec[0].first;
-                // cout << "Before sortVec size = " << sortVec.size() << "\n";
                 sortVec.erase(sortVec.begin());
-                // cout << "After sortVec size = " << sortVec.size() << "\n";
 
                 vector<int> writerow = buffPages[pgIdx].getRow(readRowIdx[pgIdx]);
-                cout << "row to be written\n";
-                for (int t = 0; t < writerow.size(); t++)
-                {
-                    cout << writerow[t] << " ";
-                }
-                cout << endl;
 
                 writeRows.push_back(writerow);
 
@@ -256,7 +234,6 @@ void executeSORT()
 
                         // read the first row from the next page
                         vector<int> firstRow = buffPages[pgIdx].getRow(0);
-                        cout << "next page first row\n";
                         for (int t = 0; t < firstRow.size(); t++)
                         {
                             cout << firstRow[t] << " ";
@@ -269,12 +246,6 @@ void executeSORT()
                 else
                 {
                     vector<int> nxtRow = buffPages[pgIdx].getRow(readRowIdx[pgIdx]);
-                    cout << "same page next row\n";
-                    for (int t = 0; t < nxtRow.size(); t++)
-                    {
-                        cout << nxtRow[t] << " ";
-                    }
-                    cout << endl;
                     sortVec.push_back(make_pair(pgIdx, nxtRow[columnIndex]));
                 }
             }
@@ -284,7 +255,6 @@ void executeSORT()
             {
                 string tname = table.tableName + "_" + to_string(sortRound);
                 Page *pgSort = new Page(tname, pgwriteNum, writeRows, writeRows.size());
-                // cout << "writing page " << tname << "_" << to_string(pgwriteNum) << "\n";
                 pgSort->writePage();
                 pgwriteNum += 1;
                 writeRows.clear();
@@ -298,16 +268,7 @@ void executeSORT()
     {
         string tname = table.tableName + "_" + to_string(sortRound - 1);
         Page pg = bufferManager.getSortPage(tname, i, rowCnt[i], table.columnCount);
-        // cout << "reading from " << tname << "_" << to_string(i) << "\n";
         vector<vector<int>> res = pg.allRows();
-        // for (int j = 0; j < res.size(); j++)
-        // {
-        //     for(int t=0;t<res[j].size();t++)
-        //     {
-        //         cout << res[j][t] << " ";
-        //     }
-        // }
-        // cout << endl;
         Page *finalPg = new Page(resTable->tableName, i, res, res.size());
         finalPg->writePage();
         resTable->rowsPerBlockCount.push_back(res.size());
@@ -317,7 +278,6 @@ void executeSORT()
 
     if (resTable->rowCount > 0)
     {
-        // cout << "Inserting the table " << endl;
         tableCatalogue.insertTable(resTable);
     }
 

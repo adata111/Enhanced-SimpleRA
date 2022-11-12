@@ -150,3 +150,9 @@ void BufferManager::deleteFile(string tableName, int pageIndex)
     string fileName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
     this->deleteFile(fileName);
 }
+
+void BufferManager::clearPool()
+{
+    logger.log("BufferManager::clearPool");
+    pages.clear();
+}

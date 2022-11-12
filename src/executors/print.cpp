@@ -30,7 +30,15 @@ bool semanticParsePRINT()
 void executePRINT()
 {
     logger.log("executePRINT");
+    bufferManager.clearPool();
+    while(lockingManager.lockfile_getStatus(parsedQuery.printRelationName) == 2)
+    {
+        cout<<"Table updating. Print blocked."<<endl;
+    }
+
+    lockingManager.lockfile_changeStatus(parsedQuery.printRelationName,1);
     Table* table = tableCatalogue.getTable(parsedQuery.printRelationName);
     table->print();
+    lockingManager.lockfile_changeStatus(parsedQuery.printRelationName,0);
     return;
 }

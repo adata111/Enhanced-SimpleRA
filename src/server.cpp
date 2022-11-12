@@ -3,7 +3,7 @@
 
 using namespace std;
 
-float BLOCK_SIZE = 0.05;
+float BLOCK_SIZE = 8;
 uint BLOCK_COUNT = 16;
 uint PRINT_COUNT = 20;
 Logger logger;
@@ -15,6 +15,7 @@ MatrixCatalogue matrixCatalogue;
 BufferManager bufferManager;
 MatrixBufferManager matrixBufferManager;
 int MATRIX_DIM;
+LockingManager lockingManager;
 
 void doCommand()
 {
@@ -33,6 +34,7 @@ int main(void)
     system("mkdir ../data/temp");
 
     MATRIX_DIM = (int)sqrt((BLOCK_SIZE * 1024) / sizeof(int));
+    lockingManager.lockFile_create();
 
     while(!cin.eof())
     {
