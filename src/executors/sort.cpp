@@ -272,7 +272,7 @@ void executeSORT()
     {
         tableCatalogue.insertTable(resTable);
         // add table to lock file with status=0
-        lockingManager.lockFile_insertTable(resTable->tableName);
+        // lockingManager.lockFile_insertTable(resTable->tableName);
     }
 
     return;

@@ -43,7 +43,7 @@ void executeLOAD()
         tableCatalogue.insertTable(table);
         cout << "Loaded Table. Column Count: " << table->columnCount << " Row Count: " << table->rowCount << endl;
         // add table to lock file with status=0
-        lockingManager.lockFile_insertTable(parsedQuery.loadRelationName);
+        // lockingManager.lockFile_insertTable(parsedQuery.loadRelationName);
     }
     return;
 }
