@@ -11,7 +11,7 @@ int columnIndex;
 bool syntacticParseSORT()
 {
     logger.log("syntacticParseSORT");
-    if ((tokenizedQuery.size() != 10 && tokenizedQuery.size() != 8) || tokenizedQuery[4] != "BY" || tokenizedQuery[6] != "IN")
+    if ((tokenizedQuery.size() != 10 && tokenizedQuery.size() != 8) || tokenizedQuery[4] != "BY" || tokenizedQuery[6] != "IN" || (tokenizedQuery.size() == 10 && tokenizedQuery[8] != "BUFFER"))
     {
         cout << "SYNTAX ERROR" << endl;
         return false;
@@ -130,10 +130,12 @@ void executeSORT()
 {
     logger.log("executeSORT");
     Table table = *tableCatalogue.getTable(parsedQuery.sortRelationName);
-    Table *resTable = new Table(parsedQuery.sortResultRelationName, table.columns);
     columnIndex = table.getColumnIndex(parsedQuery.sortColumnName);
     SortingStrategy sortStr = parsedQuery.sortingStrategy;
     int buffSize = parsedQuery.sortBufferSize;
+
+    Table *resTable = new Table(parsedQuery.sortResultRelationName, table.columns);
+    
     vector<int> rowCnt = sortInternal(table, columnIndex, buffSize, sortStr);
 
     int pgsetNum = 0;
@@ -145,7 +147,7 @@ void executeSORT()
     // Till the number of pagesets is not 1
     while (pgsetNum != 1)
     {
-    	/*
+        /*
         reading nb-1 pagesets (for round 1, each pageset will have just 1 page)
         if nb-1 = 3,
         then we are reading {(1,2,3)(4,5,6)(7,8,9)},{(10,11,12)(13,14,15)(16,17,18)} at a time.
@@ -157,7 +159,9 @@ void executeSORT()
 
         pgsetNum = 0;
         int pgwriteNum = 0;
-        for (int pgsetIdx = 0; pgsetIdx < blkCnt; pgsetIdx += pow(sortBuffSize, sortRound))
+        int pgsetIdx = 0;
+        
+        while (pgsetIdx < blkCnt)
         {
             pgsetNum += 1;
             vector<Page> buffPages;
@@ -172,7 +176,7 @@ void executeSORT()
             vector<pair<int, int>> sortVec;
 
             // read first rows of first pages of each pageset in the overall set that is being considered together
-            for (int pgLoadIdx = pgsetIdx; k < sortBuffSize && pgLoadIdx < blkCnt; pgLoadIdx+=readLimit)
+            for (int pgLoadIdx = pgsetIdx; k < sortBuffSize && pgLoadIdx < blkCnt; pgLoadIdx += readLimit)
             {
                 string tname = table.tableName + "_" + to_string(sortRound - 1);
                 buffPages.push_back(bufferManager.getSortPage(tname, pgLoadIdx, rowCnt[pgLoadIdx], table.columnCount));
@@ -199,11 +203,10 @@ void executeSORT()
                 }
 
                 int pgIdx = sortVec[0].first;
-                sortVec.erase(sortVec.begin());
-
                 vector<int> writerow = buffPages[pgIdx].getRow(readRowIdx[pgIdx]);
-
                 writeRows.push_back(writerow);
+
+                sortVec.erase(sortVec.begin());
 
                 if (writeRows.size() >= table.maxRowsPerBlock)
                 {
@@ -251,7 +254,10 @@ void executeSORT()
                 pgwriteNum += 1;
                 writeRows.clear();
             }
+
+            pgsetIdx += pow(sortBuffSize, sortRound);
         }
+        
         readLimit = pow(sortBuffSize, sortRound);
         sortRound++;
     }

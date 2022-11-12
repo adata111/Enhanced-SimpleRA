@@ -48,16 +48,6 @@ void LockingManager::lockfile_read()
     return;
 }
 
-void LockingManager::lockfile_write()
-{
-    ofstream fout(this->lockingfilename, ios::trunc);
-    for (int i = 0; i < this->rowNum; i++)
-    {
-        fout << this->lock_tables[i] << " " << this->lock_status[i] << endl;
-    }
-    fout.close();
-}
-
 bool findTable(const pair<string, int> &lockEntry)
 {
     return lockEntry.first == tableName;
