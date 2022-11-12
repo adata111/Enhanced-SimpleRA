@@ -166,14 +166,13 @@ void executeSORT()
             int readPgsetIdx[sortBuffSize + 10]; // the index of the page being read with respect to the pageset
             int pgRowNum[sortBuffSize + 10];     // number of rows in a page
 
-            int pgReadNum = 0;
             int k = 0;
             int pgLoaded[sortBuffSize + 10];
 
             vector<pair<int, int>> sortVec;
 
             // read first rows of first pages of each pageset in the overall set that is being considered together
-            for (int pgLoadIdx = pgsetIdx; pgReadNum < sortBuffSize && pgLoadIdx < blkCnt; pgLoadIdx+=readLimit)
+            for (int pgLoadIdx = pgsetIdx; k < sortBuffSize && pgLoadIdx < blkCnt; pgLoadIdx+=readLimit)
             {
                 string tname = table.tableName + "_" + to_string(sortRound - 1);
                 buffPages.push_back(bufferManager.getSortPage(tname, pgLoadIdx, rowCnt[pgLoadIdx], table.columnCount));
@@ -182,7 +181,6 @@ void executeSORT()
                 readPgsetIdx[k] = 0;
                 readRowIdx[k] = 0;
 
-                pgReadNum += 1;
                 pgLoaded[k] = pgLoadIdx;
                 k++;
                 vector<int> firstRow = buffPages[buffPages.size() - 1].getRow(0);
@@ -273,6 +271,8 @@ void executeSORT()
     if (resTable->rowCount > 0)
     {
         tableCatalogue.insertTable(resTable);
+        // add table to lock file with status=0
+        lockingManager.lockFile_insertTable(resTable->tableName);
     }
 
     return;
