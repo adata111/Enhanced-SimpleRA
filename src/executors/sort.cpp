@@ -211,7 +211,6 @@ void executeSORT()
                 {
                     string tname = table.tableName + "_" + to_string(sortRound);
                     Page *pgSort = new Page(tname, pgwriteNum, writeRows, writeRows.size());
-                    // cout << "writing page " << tname << "_" << to_string(pgwriteNum) << "\n";
                     pgSort->writePage();
                     pgwriteNum += 1;
                     writeRows.clear();
@@ -234,11 +233,6 @@ void executeSORT()
 
                         // read the first row from the next page
                         vector<int> firstRow = buffPages[pgIdx].getRow(0);
-                        for (int t = 0; t < firstRow.size(); t++)
-                        {
-                            cout << firstRow[t] << " ";
-                        }
-                        cout << endl;
                         sortVec.push_back(make_pair(pgIdx, firstRow[columnIndex]));
                     }
                 }

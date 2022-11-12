@@ -75,7 +75,6 @@ void LockingManager::lockfile_changeStatus(string tname, int lockNum)
         this->lockingTable[index].second = lockNum;
     }
 
-    // TO BE CHANGED
     ofstream fout(this->lockingfilename, ios::trunc);
     for (int i = 0; i < this->rowNum; i++)
     {
@@ -93,7 +92,6 @@ void LockingManager::lockFile_insertTable(string tname)
     {
         this->lockingTable.push_back(make_pair(tname, 0));
         this->rowNum += 1;
-        // TO BE CHANGED
         ofstream fout(this->lockingfilename, ios::trunc);
         for (int i = 0; i < this->rowNum; i++)
         {

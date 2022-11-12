@@ -84,7 +84,6 @@ void executeUPDATION()
     
     for(int row_ind=0; row_ind<rowCnt; row_ind++)
     {
-        // cout << "row updated = " << row_ind << "\n";
         int updated_val = getUpdatedValue(pg_rows[row_ind][col_ind], stoi(parsedQuery.updationValue));
         pg.updateRowIndex(row_ind, col_ind, updated_val);
         // sleep(1); // to show parallelism
