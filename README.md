@@ -1,5 +1,8 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=8229256&assignment_repo_type=AssignmentRepo)
-# SimpleRA
+# Enhanced SimpleRA
+
+This is a simplified relational database management system which supports basic database operations on integer-only tables and load, store and transpose operations efficiently on arbitrarily large matrices. Supported indexing schemes are linear hash and B+ tree. Supported sorting schemes are two-phase on-disk merge sort, and in-memory buffers are managed by delaying writes. There is no support for transaction or thread safety.  
+
+For more details, see accompanying documentation (./docs).
 
 ## Compilation Instructions
 
@@ -25,26 +28,5 @@ Post compilation, an executable names ```server``` will be created in the ```src
 ```
 ./server
 ```
-## To setup your Git Repository
-- Join the course github organisation using the invite link.
-- Join or create a team corresponding to your team name on the organisation.
-- Your repository will be initialised with a template code on succesful authorisation.
-- Now clone your personal repo using ```git clone "your repo link"```.
-- After you have cloned your repo to your system add the main repo as an upstream to your repo so whenever a change is pushed by TA's you can access it.
-- To set it as upstream type ```git remote add upstream https://github.com/SimpleRA/SimpleRA.git```.
-- Now it will be added as upstream.
-- To fetch the changes made by TA's just type ```git pull upstream master --allow-unrelated-histories``` .
-- Manually merge conflicts if there are any !!
-
-
-## Git tutorials
-- [Basic github tutorial](https://youtu.be/SWYqp7iY_Tc)
-- [Handling git merge conflicts](https://youtu.be/JtIX3HJKwfo)
-- [What is git stash?](https://youtu.be/KLEDKgMmbBI)
-- [The best way is documentation itself](https://docs.github.com/en)
-
-## Instructions for Creating a Pull Request
-- First fork the repo from the main code repository.
-- Then commit your changes to this forked repository.
-- To create a pull request go to the main repository and click on the pull request option.
-- Kindly only submit your pull requests to the branch **student-pull-requests** only. We won't entertain pull requests to master branch.
+---
+*This software was written by [@adata111](https://github.com/adata111) and [@Tanvisn](https://github.com/Tanvisn) as part of the Data Systems, Monsoon 2022 course at IIIT Hyderabad, instructed by Professor Kamal Karpalem. It is meant to be a learning aid, and is not production-ready.*
