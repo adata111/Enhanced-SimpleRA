@@ -47,6 +47,8 @@ bool syntacticParse()
         return syntacticParseSOURCE();
     else if (possibleQueryType == "CROSS_TRANSPOSE")
         return syntacticParseCROSSTRANSPOSE();
+    else if(possibleQueryType == "UPDATE")
+            return syntacticParseUPDATION();
     else
     {
         string resultantRelationName = possibleQueryType;
@@ -143,6 +145,12 @@ void ParsedQuery::clear()
     this->sortResultRelationName = "";
     this->sortColumnName = "";
     this->sortRelationName = "";
+    this->sortBufferSize = 10;
+
+    this->updationTableName = "";
+    this->updationColumnName = "";
+    this->updationOperator = "";
+    this->updationValue = "";
 
     this->sourceFileName = "";
 }

@@ -141,3 +141,13 @@ int Page::numRows()
 {
     return this->rowCount;
 }
+
+vector<vector<int>> Page::allRows()
+{
+    return this->rows;
+}
+
+void Page::updateRowIndex(int rowInd,int colInd,int newValue)
+{
+    this->rows[rowInd][colInd] = newValue;
+}

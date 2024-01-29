@@ -25,8 +25,18 @@ Page BufferManager::getPage(string tableName, int pageIndex)
 
 Page BufferManager::getHashPage(string tableName, int pageIndex, int cntRow, int cntCol)
 {
-    logger.log("BufferManager::getPage");
+    logger.log("BufferManager::getHashPage");
     string pageName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
+    if (this->inPool(pageName))
+        return this->getFromPool(pageName);
+    else
+        return this->insertHashIntoPool(tableName, pageIndex, cntRow, cntCol);
+}
+
+Page BufferManager::getSortPage(string tableName, int pageIndex, int cntRow, int cntCol)
+{
+    logger.log("BufferManager::getSortPage");
+    string pageName = "../data/temp/"+ tableName + "_Page" + to_string(pageIndex);
     if (this->inPool(pageName))
         return this->getFromPool(pageName);
     else
@@ -139,4 +149,10 @@ void BufferManager::deleteFile(string tableName, int pageIndex)
     logger.log("BufferManager::deleteFile");
     string fileName = "../data/temp/"+tableName + "_Page" + to_string(pageIndex);
     this->deleteFile(fileName);
+}
+
+void BufferManager::clearPool()
+{
+    logger.log("BufferManager::clearPool");
+    pages.clear();
 }

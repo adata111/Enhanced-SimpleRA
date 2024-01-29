@@ -231,6 +231,7 @@ void Table::print()
     {
         row = cursor.getNext();
         this->writeRow(row, cout);
+        // sleep(1); //to show parallelism
     }
     printRowCount(this->rowCount);
 }

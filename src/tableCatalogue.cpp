@@ -4,6 +4,7 @@ void TableCatalogue::insertTable(Table* table)
 {
     logger.log("TableCatalogue::~insertTable"); 
     this->tables[table->tableName] = table;
+    lockingManager.lockFile_insertTable(table->tableName);
 }
 void TableCatalogue::deleteTable(string tableName)
 {

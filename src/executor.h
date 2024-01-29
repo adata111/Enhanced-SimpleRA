@@ -20,6 +20,7 @@ void executePROJECTION();
 void executeRENAME();
 void executeSELECTION();
 void executeSORT();
+void executeUPDATION();
 void executeSOURCE();
 
 bool evaluateBinOp(int value1, int value2, BinaryOperator binaryOperator);

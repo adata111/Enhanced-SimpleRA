@@ -30,6 +30,8 @@ class Page{
     vector<int> getRow(int rowIndex);
     void writePage();
     int numRows();
+    vector<vector<int>> allRows();
+    void updateRowIndex(int rowInd,int colInd,int newValue);
 
 };
 

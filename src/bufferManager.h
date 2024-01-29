@@ -35,10 +35,12 @@ class BufferManager{
     BufferManager();
     Page getPage(string tableName, int pageIndex);
     Page getHashPage(string tableName, int pageIndex, int cntRow, int cntCol);
+    Page getSortPage(string tableName, int pageIndex, int cntRow, int cntCol);
     void writePage(string pageName, vector<vector<int>> rows);
     void deleteFile(string tableName, int pageIndex);
     void deleteFile(string fileName);
     void writePage(string tableName, int pageIndex, vector<vector<int>> rows, int rowCount);
+    void clearPool();
 };
 
 #endif
